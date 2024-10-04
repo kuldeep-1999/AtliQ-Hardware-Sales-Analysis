@@ -168,7 +168,7 @@ Shows visualizations from Sales insights :
 |![Profit Analysis](https://github.com/user-attachments/assets/a8667d44-3670-4fc8-9d5a-0ecbc353b0b3)|
 
 
-| Performace Insights |
+| Performance Insights |
 | ----------- |
 |![Performance Insights](https://github.com/user-attachments/assets/df303de4-3f93-4c8d-9a6e-ec06358f8b03)|
 
