@@ -23,7 +23,7 @@ The import of data is done from an already existing MySQL file. This file has to
 
    We can see that garbage value that the table market cantains certain values which are incorrect.
 
-'SELECT * FROM sales.market;'
+`SELECT * FROM sales.market;`
 
  And then we can check that transacation table we can see that certain transactions are in USD. Hence, filtration of that is also needed by converting into INR.
      
