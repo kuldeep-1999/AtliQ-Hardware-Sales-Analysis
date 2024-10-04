@@ -159,18 +159,19 @@ Shows visualizations from Sales insights :
 
 | Key Insights |
 | ----------- |
-|![Key_Insights](https://github.com/user-attachments/assets/72440f3a-3f36-4885-bfb5-b033690d12fd)|
+|![Key Insights](https://github.com/user-attachments/assets/6ecc9b51-4ef6-4506-bb8c-ebcc38390e01)|
 
 | Profit Analysis |
 | ----------- |
-|![Profit Analysis](https://github.com/user-attachments/assets/a8667d44-3670-4fc8-9d5a-0ecbc353b0b3)|
+|![Profit Analysis](https://github.com/user-attachments/assets/adfa6f73-f9aa-4469-a504-d50c8f3e4bb1)|
 
 
 | Performance Insights |
 | ----------- |
-|![Performance Insights](https://github.com/user-attachments/assets/df303de4-3f93-4c8d-9a6e-ec06358f8b03)|
+|![Performace Insights](https://github.com/user-attachments/assets/7eab992d-8c99-414c-9f3a-639d407dcba0)|
 
 ## Tools, Software and Libraries :
+
 
 1.MySQL
 
