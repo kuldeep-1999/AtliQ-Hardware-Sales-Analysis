@@ -181,3 +181,6 @@ Shows visualizations from Sales insights :
 3.Power Query Editor
 
 3.DAX Language 
+
+## Contribution :
+Feel free to contribute by enhancing the data analysis techniques, adding more complex visualizations, or suggesting improvements to the overall analysis.
