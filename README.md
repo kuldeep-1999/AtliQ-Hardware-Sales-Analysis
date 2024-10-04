@@ -78,10 +78,8 @@ group by 1
 order by 2 desc limit 5;`
 
 9) Top 5 Products :
-`select p.product_code,sum(t.sales_amount) as Revenue
-from products as p 
-join transactions as t
-on p.product_code = t.product_code
+`select product_code,sum(sales_amount) as Revenue 
+from transactions 
 group by 1
 order by 2 desc limit 5;`
 
@@ -161,7 +159,7 @@ Shows visualizations from Sales insights :
 
 | Key Insights |
 | ----------- |
-|![Key Insights](https://github.com/user-attachments/assets/77acb858-cf7e-474b-afb2-48638d8b7f51)|
+|![Key_Insights](https://github.com/user-attachments/assets/72440f3a-3f36-4885-bfb5-b033690d12fd)|
 
 | Profit Analysis |
 | ----------- |
