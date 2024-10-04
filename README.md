@@ -16,7 +16,7 @@ In this project, we will help the company create its own sales-related dashboard
 SQL database dump is in db_dump_version_2.sql file above. Download db_dump_version_2.sql file to your local computer
 
 - Importing Data to MySQL workbench
-- 
+
 The import of data is done from an already existing MySQL file. This file has to be loaded into MySQL workbench for further data analysis. 
 
 - Analysis of data by looking into different tables and reflecting garbage values
@@ -27,79 +27,79 @@ The import of data is done from an already existing MySQL file. This file has to
 
  And then we can check that transacation table we can see that certain transactions are in USD. Hence, filtration of that is also needed by converting into INR.
      
-select * from transactions where currency = 'usd';
+`select * from transactions where currency = 'usd';`
 
 also finding sales amount which are less than or equal to 0.
 
-select * from transactions where sales_amount <=0;
+`select * from transactions where sales_amount <=0;`
 
 ### KPIS :
 1) Total Revenue :
-select sum(sales_amount) as Revenue from transactions;
+`select sum(sales_amount) as Revenue from transactions;`
 
 2) Total Quantity :
-select sum(sales_qty) from transactions;
+`select sum(sales_qty) from transactions;`
 
 3) Total Profit Margin :
-select cast(sum(profit_margin) as decimal(10,2)) as Profit_Margin from transactions;
+`select cast(sum(profit_margin) as decimal(10,2)) as Profit_Margin from transactions;`
 
-# Key Insights :
+### Key Insights :
 
 4) Revenue by Market :
-select m.markets_name,sum(t.sales_amount) 
+`select m.markets_name,sum(t.sales_amount) 
 from markets as m
 inner join 
 transactions as t
 on m.markets_code = t.market_code
 group by 1
-order by 2 desc;
+order by 2 desc;`
 
 5) Quantity by Market :
-select m.markets_name,sum(t.sales_qty) 
+`select m.markets_name,sum(t.sales_qty) 
 from markets as m
 inner join 
 transactions as t
 on m.markets_code = t.market_code
 group by 1
-order by 2 desc;
+order by 2 desc;`
 
 6) Reveneue Trend Yearly:
-select year(order_date) as Year, sum(sales_amount) as Revenue from transactions group by 1;
+`select year(order_date) as Year, sum(sales_amount) as Revenue from transactions group by 1;`
 
 7) Reveneue Trend Monthly:
-select month(order_date) as Month, sum(sales_amount) as Revenue from transactions group by 1 order by 1;
+`select month(order_date) as Month, sum(sales_amount) as Revenue from transactions group by 1 order by 1;`
 
 8) Top 5 Customers :
-select c.custmer_name,sum(t.sales_amount) as Revenue
+`select c.custmer_name,sum(t.sales_amount) as Revenue
 from customers as c 
 join transactions as t
 on c.customer_code = t.customer_code
 group by 1
-order by 2 desc limit 5;
+order by 2 desc limit 5;`
 
 9) Top 5 Products :
-select p.product_code,sum(t.sales_amount) as Revenue
+`select p.product_code,sum(t.sales_amount) as Revenue
 from products as p 
 join transactions as t
 on p.product_code = t.product_code
 group by 1
-order by 2 desc limit 5;
+order by 2 desc limit 5;`
 
 10) Profit % by market :
-select m.markets_name, round(sum(profit_margin)/sum(Sales_amount)*100,2) as Profit_Percentage
+`select m.markets_name, round(sum(profit_margin)/sum(Sales_amount)*100,2) as Profit_Percentage
 from transactions as t
 join markets as m
 on m.markets_code = t.market_code
 group by 1
-order by 2 desc;
+order by 2 desc;`
 
 11) Profit % by zone :
-select m.zone, round(sum(profit_margin)/sum(Sales_amount)*100,2) as Profit_Percentage
+`select m.zone, round(sum(profit_margin)/sum(Sales_amount)*100,2) as Profit_Percentage
 from transactions as t
 join markets as m
 on m.markets_code = t.market_code
 group by 1
-order by 2 desc;
+order by 2 desc;`
 
 ## Data Cleaning and ETL (Extract, Transform, Load):
 In this process, we are work on data cleaning and ETL.
@@ -117,7 +117,7 @@ Setp 3: Transform data with the help of Power Query
  
  Perform filtration in market’s table: In the tables, when we click on the "Transform Data" option, we are directed to the Power Query Editor. The Power Query Editor is where we perform our ETL (Extract, Transform, Load) processes. Here, we can perform data transformation, such as data cleaning. We need to filter the rows where the values are null by filtering the data and deselecting the "Blank" option.
 
- To convert USD into INR in the transaction table: AtliQ Hardware operates only in India, so having values in USD is not valid. We need to convert those USD values into INR using appropriate formulas. To do this, we will add a new column – a Conditional Column – named "Normalized Currency," where the sales amount will be displayed in INR.
+ To convert USD into INR in the transaction table: AtliQ Hardware operates only in India, so having values in USD is not valid. We need to convert those USD values into INR using appropriate formulas. To do this, we will add a new column – a Conditional Column – named "Normal_sales_currency" where the sales amount will be displayed in INR.
 
 In power query editore finding the total values having USD as currency.
 
@@ -139,19 +139,19 @@ Measures used in all visualization are:
 
 Base Measures:
     
-  - Profit % = DIVIDE([Total Profit Margin],[Revenue])
+  - Profit % = `DIVIDE([Total Profit Margin],[Revenue])`
   - Profit Contribution % = `DIVIDE([Total Profit Margin],CALCULATE([Total Profit Margin],ALL('sales products'),ALL('sales customers'),ALL('sales markets')))`
   - Revenue = `SUM('sales transactions'[Normal_sales_currency])`
   - Revenue Contribution % = `DIVIDE([Revenue],CALCULATE([Revenue],ALL('sales products'),ALL('sales customers'),ALL('sales markets')))`
-  - Revenue LY = CALCULATE([Revenue],SAMEPERIODLASTYEAR('sales date'[date]))
-  - sales quntity = SUM('sales transactions'[sales_qty])
-  - Total Profit Margin = SUM('sales transactions'[profit_margin])
+  - Revenue LY = `CALCULATE([Revenue],SAMEPERIODLASTYEAR('sales date'[date]))`
+  - Sales quntity = `SUM('sales transactions'[sales_qty])`
+  - Total Profit Margin = `SUM('sales transactions'[profit_margin])`
 
 Profit Target:
   
-  - Profit Target1 = GENERATESERIES(-0.05, 0.15, 0.01)
+  - Profit Target1 = `GENERATESERIES(-0.05, 0.15, 0.01)`
   - Profit Target Value = `SELECTEDVALUE('Profit Target 1'[Profit Target])`
-  - Target Diff = [Profit %] - 'Profit Target 1'[Profit Target Value]
+  - Target Diff = [Profit %] - 'Profit Target 1'[Profit Target Value]`
 
 ## Build Dashboard Or a Report:
 
@@ -161,15 +161,23 @@ Shows visualizations from Sales insights :
 
 | Key Insights |
 | ----------- |
-|![Sales Insights data analysis-AtliQ_page-0001](https://user-images.githubusercontent.com/118357991/234025264-f5f1d7af-2ead-4d9a-b8ae-7524d200b7dd.jpg)|
-
-
-| Profit Analysis |
-| ----------- |
-|![Sales Insights data analysis-AtliQ_page-0002](https://user-images.githubusercontent.com/118357991/234025629-3c2e3dcf-77fb-4c20-acdb-3f92604d1292.jpg)|
+|![Key Insights](https://github.com/user-attachments/assets/77acb858-cf7e-474b-afb2-48638d8b7f51)|
 
 | Profit Analysis |
 | ----------- |
-|![Sales Insights data analysis-AtliQ_page-0003](https://user-images.githubusercontent.com/118357991/234025913-3a09f076-e1c7-40a1-9983-d2c8767f252c.jpg)|
+|![Profit Analysis](https://github.com/user-attachments/assets/a8667d44-3670-4fc8-9d5a-0ecbc353b0b3)|
 
-  
+
+| Performace Insights |
+| ----------- |
+|![Performance Insights](https://github.com/user-attachments/assets/df303de4-3f93-4c8d-9a6e-ec06358f8b03)|
+
+## Tools, Software and Libraries :
+
+1.MySQL
+
+2.Microsoft Power BI
+
+3.Power Query Editor
+
+3.DAX Language 
