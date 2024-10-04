@@ -149,7 +149,7 @@ Profit Target:
   
   - Profit Target1 = `GENERATESERIES(-0.05, 0.15, 0.01)`
   - Profit Target Value = `SELECTEDVALUE('Profit Target 1'[Profit Target])`
-  - Target Diff = [Profit %] - 'Profit Target 1'[Profit Target Value]`
+  - Target Diff = `[Profit %] - 'Profit Target 1'[Profit Target Value]`
 
 ## Build Dashboard Or a Report:
 
