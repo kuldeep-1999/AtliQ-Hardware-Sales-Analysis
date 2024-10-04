@@ -2,14 +2,15 @@
 
 ## Problem Statement :
 
-In this project performed India based AtliQ hardware company sales insights - A Data Analysis project. 
+In this project, we performed sales insights for the India-based AtliQ Hardware company - a Data Analysis project.
 
-AtliQ Hardware is a company which supplies computer hardware and peripherals to many of clients such as surge stores, Nomad stores etc. across India. AtliQ Hardware head office is situated in Delhi, India and they have many regional office through out the India.
+AtliQ Hardware is a company that supplies computer hardware and peripherals to many clients, such as Surge Stores, Nomad Stores, etc., across India. AtliQ Hardware's head office is situated in Delhi, India, and they have many regional offices throughout the country.
 
-Sales director for this company is facing a lot of challenges is this the market is growing dynamically and sales director is facing issue in terms of tracking the sales in this dynamical growth market and he is having issues with growth of this bussiness, as overall sales was declining. He has regional manager for North India, South and Central India. Whenever he wants to get insights of thses region he would call these people and on the phone regional manager give some insights to him that this was the sales last quarter and we are going to grow by this much in the next quarter.
+The Sales Director of the company is facing several challenges as the market is growing dynamically. He is struggling to track sales in this rapidly changing market and facing issues with the growth of the business, as overall sales have been declining. He has regional managers for North, South, and Central India. Whenever he wants insights into these regions, he calls the regional managers, and they provide some verbal insights over the phone, such as sales from the last quarter and projected growth for the next quarter.
 
-The problem was that all thses thing happening is verbal and these was mo proof with facts that how his business is affected and which made him frustraed as he can see that overall sales is declining but when he can ask regional manager, he is not getting complete picture of this bussiness and when he and this AtliQ hardware is big business. so to see insights clearly. and he will get proper insights anbd can take data driven decision to increase sales of hos company.
-All he wants is a simple data visualization tool which he can access on daily basis. By using such tools and technology one can make data driven decisiions which helps to increase the sales of the company. So, In this projects we will help a company make its own sales related dashboard using Power BI.
+The problem is that all these interactions are verbal, with no factual proof of how the business is being affected, which frustrates him. He can see that overall sales are declining, but when he asks the regional managers, he doesn't get a complete picture of the business, especially considering AtliQ Hardware is a large company. He needs to see insights clearly and be able to make data-driven decisions to increase the sales of his company. What he wants is a simple data visualization tool that he can access daily. By using such tools and technologies, one can make data-driven decisions that help increase the company's sales.
+
+In this project, we will help the company create its own sales-related dashboard using Power BI.
 
 ## Data Analysis using MySQL :
 SQL database dump is in db_dump_version_2.sql file above. Download db_dump_version_2.sql file to your local computer
@@ -32,19 +33,19 @@ also finding sales amount which are less than or equal to 0.
 
 select * from transactions where sales_amount <=0;
 
-# KPIS :
--- 1) Total Revenue :
+### KPIS :
+1) Total Revenue :
 select sum(sales_amount) as Revenue from transactions;
 
--- 2) Total Quantity :
+2) Total Quantity :
 select sum(sales_qty) from transactions;
 
--- 3) Total Profit Margin :
+3) Total Profit Margin :
 select cast(sum(profit_margin) as decimal(10,2)) as Profit_Margin from transactions;
 
 # Key Insights :
 
--- 4) Revenue by Market :
+4) Revenue by Market :
 select m.markets_name,sum(t.sales_amount) 
 from markets as m
 inner join 
@@ -53,7 +54,7 @@ on m.markets_code = t.market_code
 group by 1
 order by 2 desc;
 
--- 5) Quantity by Market :
+5) Quantity by Market :
 select m.markets_name,sum(t.sales_qty) 
 from markets as m
 inner join 
@@ -62,13 +63,13 @@ on m.markets_code = t.market_code
 group by 1
 order by 2 desc;
 
--- 6) Reveneue Trend Yearly:
+6) Reveneue Trend Yearly:
 select year(order_date) as Year, sum(sales_amount) as Revenue from transactions group by 1;
 
--- 7) Reveneue Trend Monthly:
+7) Reveneue Trend Monthly:
 select month(order_date) as Month, sum(sales_amount) as Revenue from transactions group by 1 order by 1;
 
--- 8) Top 5 Customers :
+8) Top 5 Customers :
 select c.custmer_name,sum(t.sales_amount) as Revenue
 from customers as c 
 join transactions as t
@@ -76,7 +77,7 @@ on c.customer_code = t.customer_code
 group by 1
 order by 2 desc limit 5;
 
--- 8) Top 5 Products :
+9) Top 5 Products :
 select p.product_code,sum(t.sales_amount) as Revenue
 from products as p 
 join transactions as t
@@ -84,7 +85,7 @@ on p.product_code = t.product_code
 group by 1
 order by 2 desc limit 5;
 
--- 9) Profit % by market :
+10) Profit % by market :
 select m.markets_name, round(sum(profit_margin)/sum(Sales_amount)*100,2) as Profit_Percentage
 from transactions as t
 join markets as m
@@ -92,7 +93,7 @@ on m.markets_code = t.market_code
 group by 1
 order by 2 desc;
 
--- 10) Profit % by zone :
+11) Profit % by zone :
 select m.zone, round(sum(profit_margin)/sum(Sales_amount)*100,2) as Profit_Percentage
 from transactions as t
 join markets as m
@@ -114,10 +115,61 @@ In this process, we are work on data cleaning and ETL.
 
 Setp 3: Transform data with the help of Power Query
  
- Perform filtration in market’s table: In the tables perform when we click on the transform data option, we are directed to Power query editor. Power query editor is where we perform out ETL.and then we can perform data transformation i.e. Data Cleaning. we need to filter the rows where the values are null and filtering the data and deselecting the blank option. 
+ Perform filtration in market’s table: In the tables, when we click on the "Transform Data" option, we are directed to the Power Query Editor. The Power Query Editor is where we perform our ETL (Extract, Transform, Load) processes. Here, we can perform data transformation, such as data cleaning. We need to filter the rows where the values are null by filtering the data and deselecting the "Blank" option.
 
- Perform filtration in Transaction’s table: In the table perform when we check the query in the MySQL to filter some ne,we have deselecting the values, don’t want in the table. The result after filtration. the zero values represent some garbage values which is not possible so we need to clean that data.
-
-Convert USD into INR in the transaction’s table: the AtliQ Hardware only works in India so the USD values are not possible. we need to convert those USD values into INR by using some formulas. Add new column - Conditional column - normalized currency where sales amount will be in INR
+ To convert USD into INR in the transaction table: AtliQ Hardware operates only in India, so having values in USD is not valid. We need to convert those USD values into INR using appropriate formulas. To do this, we will add a new column – a Conditional Column – named "Normalized Currency," where the sales amount will be displayed in INR.
 
 In power query editore finding the total values having USD as currency.
+
+`= Table.AddColumn(sales_transactions, "Normal_sales_currency", each if [currency] = "USD"  then [sales_amount]* 65 else [sales_amount])`
+
+ using this correct formula of the conversion,and converted the USD currency into INR.
+
+## Data Modeling:
+
+And then dataset was cleaned and transformed, it was ready to the data modeled.
+
+The sales insights data tables as show below:
+
+![clean data schemas](https://github.com/user-attachments/assets/9c9bbccc-3c0d-4125-8369-804e2c9520b6)
+
+## Data Analysis  (DAX):
+
+Measures used in all visualization are:
+
+Base Measures:
+    
+  - Profit % = DIVIDE([Total Profit Margin],[Revenue])
+  - Profit Contribution % = `DIVIDE([Total Profit Margin],CALCULATE([Total Profit Margin],ALL('sales products'),ALL('sales customers'),ALL('sales markets')))`
+  - Revenue = `SUM('sales transactions'[Normal_sales_currency])`
+  - Revenue Contribution % = `DIVIDE([Revenue],CALCULATE([Revenue],ALL('sales products'),ALL('sales customers'),ALL('sales markets')))`
+  - Revenue LY = CALCULATE([Revenue],SAMEPERIODLASTYEAR('sales date'[date]))
+  - sales quntity = SUM('sales transactions'[sales_qty])
+  - Total Profit Margin = SUM('sales transactions'[profit_margin])
+
+Profit Target:
+  
+  - Profit Target1 = GENERATESERIES(-0.05, 0.15, 0.01)
+  - Profit Target Value = `SELECTEDVALUE('Profit Target 1'[Profit Target])`
+  - Target Diff = [Profit %] - 'Profit Target 1'[Profit Target Value]
+
+## Build Dashboard Or a Report:
+
+Data visualization for the data analysis (DAX) was done in Microsoft Power BI Desktop:
+
+Shows visualizations from Sales insights :
+
+| Key Insights |
+| ----------- |
+|![Sales Insights data analysis-AtliQ_page-0001](https://user-images.githubusercontent.com/118357991/234025264-f5f1d7af-2ead-4d9a-b8ae-7524d200b7dd.jpg)|
+
+
+| Profit Analysis |
+| ----------- |
+|![Sales Insights data analysis-AtliQ_page-0002](https://user-images.githubusercontent.com/118357991/234025629-3c2e3dcf-77fb-4c20-acdb-3f92604d1292.jpg)|
+
+| Profit Analysis |
+| ----------- |
+|![Sales Insights data analysis-AtliQ_page-0003](https://user-images.githubusercontent.com/118357991/234025913-3a09f076-e1c7-40a1-9983-d2c8767f252c.jpg)|
+
+  
